@@ -1,6 +1,6 @@
 ## Description
 
-Issue Link: <Please add the link to the issue>
+Issue Link: __Please add the link to the issue here__
 
 Please include a summary of the change and which issue is fixed. Also include relevant motivation and context. List any dependencies that are required for this change.
 
