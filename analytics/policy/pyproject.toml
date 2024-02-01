@@ -8,6 +8,45 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.8"
 
+[tool.poetry.group.dev.dependencies]
+coverage = "^7.4.1"
+pytest = "^8.0.0"
+mypy = "^1.8.0"
+ruff = "^0.1.15"
+
+[tool.poetry.scripts]
+
+[tool.coverage.run]
+branch = true
+source = ["src/*"]
+omit = ["src/tests/*"]
+
+[tool.coverage.report]
+fail_under = 80
+ignore_errors = true
+show_missing = true
+skip_empty = true
+
+[tool.coverage.html]
+directory = "coverage_html_report"
+
+[tool.mypy]
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+
+check_untyped_defs = true
+
+disallow_untyped_defs = true
+disallow_any_unimported = true
+
+[tool.pytest.ini_options]
+addopts = ["--verbose", "src/tests/"]
+
+[tool.ruff]
+src = ["src"]
+include = ["pyproject.toml", "src/**/*.py"]
 
 [build-system]
 requires = ["poetry-core"]
