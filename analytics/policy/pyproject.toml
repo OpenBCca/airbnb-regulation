@@ -19,7 +19,6 @@ ruff = "^0.1.15"
 [tool.coverage.run]
 branch = true
 source = ["src/*"]
-omit = ["src/tests/*"]
 
 [tool.coverage.report]
 fail_under = 80
@@ -31,6 +30,8 @@ skip_empty = true
 directory = "coverage_html_report"
 
 [tool.mypy]
+mypy_path = "$MYPY_CONFIG_FILE_DIR/src" 
+files = ["src/**/", "tests/**/*"]
 warn_unused_configs = true
 warn_unused_ignores = true
 warn_redundant_casts = true
@@ -42,7 +43,10 @@ disallow_untyped_defs = true
 disallow_any_unimported = true
 
 [tool.pytest.ini_options]
-addopts = ["--verbose", "src/tests/"]
+addopts = [
+    "--import-mode=importlib",
+]
+testpaths = ["tests"]
 
 [tool.ruff]
 src = ["src"]
