@@ -43,13 +43,17 @@ disallow_untyped_defs = true
 disallow_any_unimported = true
 
 [tool.pytest.ini_options]
+# Choose import mode based on
+# https://docs.pytest.org/en/7.2.x/explanation/goodpractices.html#which-import-mode
 addopts = [
     "--import-mode=importlib",
 ]
 testpaths = ["tests"]
 
 [tool.ruff]
+# The directories to consider when resolving first- vs. third-party imports.
 src = ["src", "tests"]
+# A list of file patterns to include when linting.
 include = ["pyproject.toml", "src/**/*.py"]
 
 [build-system]
