@@ -49,7 +49,7 @@ addopts = [
 testpaths = ["tests"]
 
 [tool.ruff]
-src = ["src"]
+src = ["src", "tests"]
 include = ["pyproject.toml", "src/**/*.py"]
 
 [build-system]
