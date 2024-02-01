@@ -99,3 +99,7 @@ mypy is configured in the
 
 This module will be structured based on
 https://www.cosmicpython.com/book/appendix_project_structure.html
+
+## References
+
+1. [Software Design Doc](docs/sw_design_doc.md)
