@@ -35,7 +35,7 @@ TODO
 
 ## Folder Structure
 ```
-|-airbnb_scarping/            # Contains the scrapy project for scarping 
+├── airbnb_scarping/          # Contains the scrapy project for scarping 
 ├── airbnb_listings/          # Main Python package for the Scrapy project.
 │ ├── init.py                 # Empty file indicating that the directory should be considered a Python package.
 │ ├── items.py                # Definition of Scrapy items, specifying the structure of the data to be scraped.
