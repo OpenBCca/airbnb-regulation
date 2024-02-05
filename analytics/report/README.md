@@ -12,7 +12,7 @@ This project uses [Poetry](https://python-poetry.org/) for virtual environment c
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/yourproject.git
+git clone https://github.com/OpenBCca/airbnb-regulation.git
 
 # Navigate to the project directory
 cd analytics\report
