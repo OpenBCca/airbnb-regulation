@@ -13,21 +13,15 @@ Scrapes listing data from AirBnb.
 
 ## Installation
 
-1. Clone this repository:
 
-    ```bash
-    git clone https://github.com/OpenBCca/airbnb-regulation
-    cd airbnb_scrapping
-    ```
-
-2. Create and activate a virtual environment:
+1. Create and activate a virtual environment:
 
     ```bash
     virtualenv venv
     source venv/bin/activate
     ```
 
-3. Install dependencies:
+2. Install dependencies:
 
     ```bash
     pip install -r requirements.txt
