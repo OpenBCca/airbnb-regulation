@@ -1,0 +1,61 @@
+[tool.poetry]
+name = "policy"
+version = "0.1.0"
+description = "Policy Evaluation Module"
+authors = ["Nam Anh Mai <maithenamanh@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.group.dev.dependencies]
+coverage = "^7.4.1"
+pytest = "^8.0.0"
+mypy = "^1.8.0"
+ruff = "^0.1.15"
+
+[tool.poetry.scripts]
+
+[tool.coverage.run]
+branch = true
+source = ["src/*"]
+
+[tool.coverage.report]
+fail_under = 80
+ignore_errors = true
+show_missing = true
+skip_empty = true
+
+[tool.coverage.html]
+directory = "coverage_html_report"
+
+[tool.mypy]
+mypy_path = "$MYPY_CONFIG_FILE_DIR/src" 
+files = ["src/**/", "tests/**/*"]
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+
+check_untyped_defs = true
+
+disallow_untyped_defs = true
+disallow_any_unimported = true
+
+[tool.pytest.ini_options]
+# Choose import mode based on
+# https://docs.pytest.org/en/7.2.x/explanation/goodpractices.html#which-import-mode
+addopts = [
+    "--import-mode=importlib",
+]
+testpaths = ["tests"]
+
+[tool.ruff]
+# The directories to consider when resolving first- vs. third-party imports.
+src = ["src", "tests"]
+# A list of file patterns to include when linting.
+include = ["pyproject.toml", "src/**/*.py"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
