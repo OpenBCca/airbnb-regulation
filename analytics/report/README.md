@@ -15,7 +15,7 @@ This project uses [Poetry](https://python-poetry.org/) for virtual environment c
 git clone https://github.com/OpenBCca/airbnb-regulation.git
 
 # Navigate to the project directory
-cd analytics\report
+cd analytics
 
 # Install dependencies using Poetry
 poetry install
