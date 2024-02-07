@@ -48,7 +48,7 @@ poetry update
 poetry add <dependency_name>
 
 # Add a development dependency
-poetry add -D <dependency_name>
+poetry add -G <dependency_name>
 ```
 
 ## Project Structure
