@@ -4,17 +4,21 @@ version = "0.1.0"
 description = "Policy Evaluation Module"
 authors = ["Nam Anh Mai <maithenamanh@gmail.com>"]
 readme = "README.md"
+packages = [
+  { include = "src" },
+  { include = "services", from = "src" },
+  { include = "utils", from = "src" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+urllib3 = "^2.2.0"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.4.1"
 pytest = "^8.0.0"
 mypy = "^1.8.0"
 ruff = "^0.1.15"
-
-[tool.poetry.scripts]
 
 [tool.coverage.run]
 branch = true
