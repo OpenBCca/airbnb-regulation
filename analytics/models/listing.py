@@ -22,9 +22,3 @@ class Listing:
         self.id = id
         self.address = address
         self.licence_number = licence_number
-
-
-if __name__ == "__main__":
-    address = Address(city="Van")
-    listing = Listing("23232", address=address)
-    print(listing.address, listing.id, listing.licence_number)
