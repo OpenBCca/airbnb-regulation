@@ -10,3 +10,9 @@ class AirbnbListingsItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+
+class AirBnBListingItem(scrapy.Item):
+    airbnb_listing_id = scrapy.Field()
+    title = scrapy.Field()
+    name = scrapy.Field()
