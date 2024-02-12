@@ -3,7 +3,6 @@ import json
 import urllib3
 from models.address import Address
 from models.listing import Listing
-from policy.utils.dict_utils import merge_dicts
 from urllib3.exceptions import HTTPError
 
 
@@ -47,8 +46,19 @@ class BusinessLicenceClient:
             )
         return licence_status
 
+    def _merge_query_parameters(self, *parameters: dict) -> dict:
+        merged_query_parameter = {}
+        for parameter in parameters:
+            for key, value in parameter.items():
+                if key in merged_query_parameter:
+                    merged_query_parameter[key] += f" and {value}"
+                else:
+                    merged_query_parameter[key] = value
+        print(merged_query_parameter)
+        return merged_query_parameter
+
     def get_licence_status(self, licence_number: str) -> list[str]:
-        fields = merge_dicts(
+        fields = self._merge_query_parameters(
             self._filter_by_short_term_rental_business(),
             self._filter_by_licence_number(licence_number),
             self._licence_status_query(),
