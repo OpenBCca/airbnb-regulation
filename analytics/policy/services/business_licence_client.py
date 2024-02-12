@@ -54,7 +54,6 @@ class BusinessLicenceClient:
                     merged_query_parameter[key] += f" and {value}"
                 else:
                     merged_query_parameter[key] = value
-        print(merged_query_parameter)
         return merged_query_parameter
 
     def get_licence_status(self, licence_number: str) -> list[str]:
