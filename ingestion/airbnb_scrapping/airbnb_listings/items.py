@@ -16,3 +16,4 @@ class AirBnBListingItem(scrapy.Item):
     airbnb_listing_id = scrapy.Field()
     title = scrapy.Field()
     name = scrapy.Field()
+    registration_id = scrapy.Field()
