@@ -31,6 +31,9 @@ class BusinessLicenceClient:
         except HTTPError as e:
             print(f"Error fetching data: {e}")
             raise e
+        except json.JSONDecodeError as e:
+            print(f"Error decoding data: {e}")
+            raise e
 
     def _process_licence_status_results(self, response_data: dict) -> str | list[str]:
         total_count = response_data["total_count"]
