@@ -23,6 +23,8 @@ def mock_response(response_data=None):
 @pytest.mark.parametrize(
     "licence_number, expected_status, expected_count",
     [
+        ("0", [], 0),
+        ("12-abcd", [], 0),
         ("20-247927", ["Issued"], 1),
         ("20-329038", ["Pending"], 1),
         ("20-254895", ["Cancelled"], 1),

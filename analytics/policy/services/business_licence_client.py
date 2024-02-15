@@ -32,14 +32,11 @@ class BusinessLicenceClient:
             print(f"Error fetching data: {e}")
             raise e
 
-    def _process_licence_status_results(
-        self, response_data: dict, licence_number: str
-    ) -> str | list[str]:
+    def _process_licence_status_results(self, response_data: dict) -> str | list[str]:
         total_count = response_data["total_count"]
         results = response_data["results"]
         licence_status = [result["status"] for result in results]
 
-        # Omit total_count == 0 case since the licence number should be checked during policy evaluation
         if total_count > 1:
             print(
                 f"Received {total_count} counts of licence number with statuses: {licence_status}"
@@ -64,4 +61,4 @@ class BusinessLicenceClient:
         )
         response_data = self._make_request(fields)
 
-        return self._process_licence_status_results(response_data, licence_number)
+        return self._process_licence_status_results(response_data)
