@@ -21,25 +21,25 @@ def mock_response(response_data=None):
 
 @patch("policy.services.business_licence_client.urllib3.PoolManager")
 @pytest.mark.parametrize(
-    "licence_number, expected_status, expected_count",
+    "licence_number, expected_status",
     [
-        ("", [], 0),
-        (None, [], 0),
-        ("0", [], 0),
-        ("12-abcd", [], 0),
-        ("20-247927", ["Issued"], 1),
-        ("20-329038", ["Pending"], 1),
-        ("20-254895", ["Cancelled"], 1),
-        ("20-253595", ["Gone Out of Business"], 1),
-        ("20-160574", ["Inactive", "Pending"], 2),
+        ("", []),
+        (None, []),
+        ("0", []),
+        ("12-abcd", []),
+        ("20-247927", ["Issued"]),
+        ("20-329038", ["Pending"]),
+        ("20-254895", ["Cancelled"]),
+        ("20-253595", ["Gone Out of Business"]),
+        ("20-160574", ["Inactive", "Pending"]),
     ],
 )
 def test_get_licence_status_success(
-    mock_pool_manager, client, licence_number, expected_count, expected_status
+    mock_pool_manager, client, licence_number, expected_status
 ):
     mock_response_data = [
         {
-            "total_count": expected_count,
+            "total_count": len(expected_status),
             "results": [{"status": expected_status}],
         },
     ]
