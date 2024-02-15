@@ -1,5 +1,6 @@
-import pytest
 from report.src.listing_store.listing_store import ListingStore
+from typing import List
+from models.listing import Listing
 
 def test_init():
     mock_store = ListingStore('mock')
@@ -7,7 +8,7 @@ def test_init():
 
 def test_get_items_from_mock_store():
     mock_store = ListingStore('mock')
-    expected_store = [
+    expected_store: List[Listing] = [
         {
             'listing_id': '1',
             'city': 'Vancouver',

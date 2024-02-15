@@ -1,3 +1,6 @@
+from models.listing import Listing
+from typing import List
+
 class ListingStore:
     def __init__(self, source):
         if source == 'mock':
@@ -5,7 +8,7 @@ class ListingStore:
         # can add more methods in future
 
     def get_items_from_mock_store(self):
-        self.store = [
+        self.store: List[Listing] = [
             {
                 'listing_id': '1',
                 'city': 'Vancouver',
