@@ -1,7 +1,6 @@
 import json
 
 import urllib3
-from models.address import Address
 from models.listing import Listing
 from urllib3.exceptions import HTTPError
 
