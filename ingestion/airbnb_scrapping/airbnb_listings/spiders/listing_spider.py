@@ -59,6 +59,9 @@ class ListingSpider(scrapy.Spider):
 
         Args:
             response (Response): The response object from the request.
+
+         Yields:
+            AirBnBListingItem: An AirBnBListingItem object containing details of an Airbnb listing.
         """
         airbnb_params = response.meta.get('airbnb_params', {})
         listing_item = AirBnBListingItem(
