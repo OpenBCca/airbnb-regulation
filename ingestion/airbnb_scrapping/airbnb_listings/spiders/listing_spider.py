@@ -153,15 +153,3 @@ class ListingSpider(scrapy.Spider):
         return ListingSpider._safe_get(script_json,
                                        "niobeMinimalClientData", 0, 1, "data", "presentation", "staysSearch",
                                        "results", "paginationInfo", "pageCursors", default=[])
-
-    # def _parse_listings_json(self, listings_json):
-    #     return listings_json["niobeMinimalClientData"][0][1]["data"]["presentation"]["staysSearch"]["results"] \
-    #         ["searchResults"]
-    #
-    # def _parse_listing_json(self, listing_json):
-    #     return listing_json["niobeMinimalClientData"][0][1]["data"]["presentation"]["stayProductDetailPage"][
-    #         "sections"]["sections"]
-    #
-    # def _get_cursors(self, script_json):
-    #     return script_json["niobeMinimalClientData"][0][1]["data"]["presentation"]["staysSearch"] \
-    #         ["results"]["paginationInfo"]["pageCursors"]
