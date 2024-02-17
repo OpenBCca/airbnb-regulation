@@ -6,13 +6,18 @@
 import scrapy
 
 
-class AirbnbListingsItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
-
-
 class AirBnBListingItem(scrapy.Item):
+    """
+    Item class representing an Airbnb listing.
+
+    Attributes:
+        airbnb_listing_id (str): The Airbnb listing ID.
+        title (str): The title of the listing.
+        name (str): The name of the listing.
+        registration_number (str): The registration number of the listing.
+        latitude (float): The latitude coordinate of the listing.
+        longitude (float): The longitude coordinate of the listing.
+    """
     airbnb_listing_id = scrapy.Field()
     title = scrapy.Field()
     name = scrapy.Field()
