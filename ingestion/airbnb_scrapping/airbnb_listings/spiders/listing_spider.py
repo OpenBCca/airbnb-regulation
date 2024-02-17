@@ -1,88 +1,164 @@
 import json
-from typing import Any
 import scrapy
-from scrapy import Request, Selector
+from scrapy import Request
 from scrapy.http import Response
 from airbnb_listings.items import AirBnBListingItem
-from selenium.common import TimeoutException
-from selenium.webdriver.chrome.options import Options
-from scrapy_selenium import SeleniumRequest
-from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 
 
 class ListingSpider(scrapy.Spider):
+    """
+    Spider for scraping Airbnb listings.
+    """
     name = "listing_spider"
     allowed_domains = ['airbnb.ca']
     start_urls = ['https://www.airbnb.ca/s/Vancouver--British-Columbia--Canada/homes']
     next_page_cursors: [str] = None
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.driver = webdriver.Chrome()
-    #     chrome_options = Options()
-    #     chrome_options.add_argument('--headless')
-    #     chrome_options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
-    #     self.driver = webdriver.Chrome(options=chrome_options)
-    #     self.print = True
-
     async def parse(self, response: Response, **kwargs):
+        """
+        Parse method for extracting listings from the Airbnb search results page.
+
+        Args:
+            response (Response): The response object from the request.
+
+        Yields:
+            Request: A request object for each listing's details page.
+        """
         script_tag = response.css('script#data-deferred-state')
         script_inner_text = script_tag.css('script::text').get()
-        script_tag_json = json.loads(script_inner_text)
-
-        results = script_tag_json["niobeMinimalClientData"][0][1]["data"]["presentation"]["staysSearch"]["results"] \
-            ["searchResults"]
+        script_json = json.loads(script_inner_text)
+        results = self._parse_listings_json(script_json)
         if ListingSpider.next_page_cursors is None:
-            ListingSpider.next_page_cursors = \
-                script_tag_json["niobeMinimalClientData"][0][1]["data"]["presentation"]["staysSearch"] \
-                    ["results"]["paginationInfo"]["pageCursors"]
+            ListingSpider.next_page_cursors = self._get_cursors(script_json)
         for result in results:
-            listing_id = result["listing"]["id"]
+            listing_id = result.get("listing", {}).get("id")
+            title = result.get("listing", {}).get("title", "")
+            name = result.get("listing", {}).get("name", "")
             page_url = f"https://www.airbnb.ca/rooms/{listing_id}"
-            airbnb_params = {"airbnb_listing_id": listing_id, "title": result["listing"]["title"],
-                             "name": result["listing"]["name"]}
-            registration_id = "Not Found"
-            try:
-                print("before registration")
-                registration = yield Request(url=page_url, callback=self.handle_listing,
-                                             meta={'airbnb_params': airbnb_params})
+            airbnb_params = {
+                "airbnb_listing_id": listing_id,
+                "title": title,
+                "name": name
+            }
 
+            try:
+                yield Request(url=page_url, callback=self.handle_listing,
+                              meta={'airbnb_params': airbnb_params})
             except Exception as e:
-                print("exception", e)
+                print("exception", e.args[0])
 
         if len(ListingSpider.next_page_cursors) != 0:
             cursor_id = ListingSpider.next_page_cursors.pop()
-            print("cursors after popping", ListingSpider.next_page_cursors)
             next_url = f'https://www.airbnb.ca/s/Vancouver--British-Columbia--Canada/homes?cursor={cursor_id}'
             yield response.follow(next_url, callback=self.parse)
 
-    def handle_listing(self, response):
-        airbnb_params = response.meta.get('airbnb_params')
-        listing_item = AirBnBListingItem()
-        listing_item["airbnb_listing_id"] = airbnb_params.get('airbnb_listing_id')
-        listing_item["title"] = airbnb_params.get('title')
-        listing_item["name"] = airbnb_params.get('name')
+    @staticmethod
+    def handle_listing(response):
+        """
+        Parse method for extracting details from an Airbnb listing page.
+
+        Args:
+            response (Response): The response object from the request.
+        """
+        airbnb_params = response.meta.get('airbnb_params', {})
+        listing_item = AirBnBListingItem(
+            airbnb_listing_id=airbnb_params.get('airbnb_listing_id'),
+            title=airbnb_params.get('title'),
+            name=airbnb_params.get('name')
+        )
+
         script_tag = response.css('script#data-deferred-state')
         script_inner_text = script_tag.css('script::text').get()
         script_tag_json = json.loads(script_inner_text)
-        registration_number = None
+
+        registration_number = "Not Found"
         try:
-            sections = \
-                script_tag_json["niobeMinimalClientData"][0][1]["data"]["presentation"]["stayProductDetailPage"][
-                    "sections"]["sections"]
+            sections = ListingSpider._parse_listing_json(script_tag_json)
             for section in sections:
-                if section["sectionComponentType"] == "HOST_PROFILE_DEFAULT":
-                    items = section["section"]["hostFeatures"]
+                if section.get("sectionComponentType") == "HOST_PROFILE_DEFAULT":
+                    items = section.get("section", {}).get("hostFeatures", [])
                     for item in items:
-                        if item["title"] == "Registration number":
-                            registration_number = item["subtitle"]
+                        if item.get("title") == "Registration number":
+                            registration_number = item.get("subtitle", "Not found")
         except Exception as e:
-            print("exception", e.args[0])
-            registration_number = "Not Found"
-        if registration_number is None:
-            registration_number = "Not found"
+            print("Exception occurred:", e)
+
         listing_item["registration_id"] = registration_number
         yield listing_item
+
+    @staticmethod
+    def _safe_get(data: dict, *keys, default=None):
+        """
+        Safely retrieve a nested value from a dictionary.
+
+        Args:
+            data (dict): The dictionary to retrieve the value from.
+            keys (tuple): The keys to navigate the nested structure.
+            default: The default value to return if the keys are not found.
+
+        Returns:
+            The value at the specified nested key or the default value.
+        """
+        try:
+            for key in keys:
+                data = data[key]
+            return data
+        except KeyError:
+            return default
+
+    @staticmethod
+    def _parse_listings_json(listings_json):
+        """
+        Parse method for extracting listing information from a JSON object.
+
+        Args:
+            listings_json (dict): The JSON object containing the listings' information.s
+
+        Returns:
+            list: A list of listings extracted from the JSON object.
+        """
+        return ListingSpider._safe_get(listings_json,
+                                       "niobeMinimalClientData", 0, 1, "data", "presentation", "staysSearch",
+                                       "results", "searchResults", default=[])
+
+    @staticmethod
+    def _parse_listing_json(listing_json):
+        """
+        Parse method for extracting listing details from a JSON object.
+
+        Args:
+            listing_json (dict): The JSON object containing the listing details.
+
+        Returns:
+            list: A list of listing details extracted from the JSON object.
+        """
+        return ListingSpider._safe_get(listing_json, "niobeMinimalClientData", 0, 1, "data", "presentation",
+                                       "stayProductDetailPage",
+                                       "sections", "sections", default=[])
+
+    @staticmethod
+    def _get_cursors(script_json):
+        """
+        Parse method for extracting pagination cursors from a JSON object.
+
+        Args:
+            script_json (dict): The JSON object containing the pagination information.
+
+        Returns:
+            list: A list of pagination cursors extracted from the JSON object.
+        """
+        return ListingSpider._safe_get(script_json,
+                                       "niobeMinimalClientData", 0, 1, "data", "presentation", "staysSearch",
+                                       "results", "paginationInfo", "pageCursors", default=[])
+
+    # def _parse_listings_json(self, listings_json):
+    #     return listings_json["niobeMinimalClientData"][0][1]["data"]["presentation"]["staysSearch"]["results"] \
+    #         ["searchResults"]
+    #
+    # def _parse_listing_json(self, listing_json):
+    #     return listing_json["niobeMinimalClientData"][0][1]["data"]["presentation"]["stayProductDetailPage"][
+    #         "sections"]["sections"]
+    #
+    # def _get_cursors(self, script_json):
+    #     return script_json["niobeMinimalClientData"][0][1]["data"]["presentation"]["staysSearch"] \
+    #         ["results"]["paginationInfo"]["pageCursors"]
