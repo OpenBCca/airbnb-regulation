@@ -31,14 +31,20 @@ class ListingSpider(scrapy.Spider):
         if ListingSpider.next_page_cursors is None:
             ListingSpider.next_page_cursors = self._get_cursors(script_json)
         for result in results:
-            listing_id = result.get("listing", {}).get("id")
-            title = result.get("listing", {}).get("title", "")
-            name = result.get("listing", {}).get("name", "")
+            listing = result.get("listing", {})
+            listing_id = listing.get("id")
+            title = listing.get("title", "")
+            name = listing.get("name", "")
+            coordinate = listing.get("coordinate", "")
+            latitude = coordinate.get("latitude", "")
+            longitude = coordinate.get("longitude", "")
             page_url = f"https://www.airbnb.ca/rooms/{listing_id}"
             airbnb_params = {
                 "airbnb_listing_id": listing_id,
                 "title": title,
-                "name": name
+                "name": name,
+                "latitude": latitude,
+                "longitude": longitude
             }
 
             try:
@@ -67,7 +73,9 @@ class ListingSpider(scrapy.Spider):
         listing_item = AirBnBListingItem(
             airbnb_listing_id=airbnb_params.get('airbnb_listing_id'),
             title=airbnb_params.get('title'),
-            name=airbnb_params.get('name')
+            name=airbnb_params.get('name'),
+            latitude=airbnb_params.get('latitude'),
+            longitude=airbnb_params.get('longitude')
         )
 
         script_tag = response.css('script#data-deferred-state')
@@ -86,7 +94,7 @@ class ListingSpider(scrapy.Spider):
         except Exception as e:
             print("Exception occurred:", e)
 
-        listing_item["registration_id"] = registration_number
+        listing_item["registration_number"] = registration_number
         yield listing_item
 
     @staticmethod
