@@ -50,7 +50,9 @@ class BusinessLicenceClient:
         for parameter in parameters:
             for key, value in parameter.items():
                 if key in merged_query_parameter:
-                    merged_query_parameter[key] += f" and {value}"
+                    merged_query_parameter[key] = " and ".join(
+                        [merged_query_parameter[key], value]
+                    )
                 else:
                     merged_query_parameter[key] = value
         return merged_query_parameter
@@ -64,3 +66,13 @@ class BusinessLicenceClient:
         response_data = self._make_request(fields)
 
         return self._process_licence_status_results(response_data)
+
+
+if __name__ == "__main__":
+    from models.address import Address
+
+    example_listing = Listing(
+        id="3232", address=Address(city="Vancouver"), licence_number="20-247927"
+    )
+    business_licences = BusinessLicenceClient()
+    print(business_licences.get_licence_status(example_listing.licence_number))
