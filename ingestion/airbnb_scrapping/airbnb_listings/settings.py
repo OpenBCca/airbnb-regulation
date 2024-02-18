@@ -11,7 +11,6 @@ BOT_NAME = "airbnb_listings"
 SPIDER_MODULES = ["airbnb_listings.spiders"]
 NEWSPIDER_MODULE = "airbnb_listings.spiders"
 
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "airbnb_listings (+http://www.yourdomain.com)"
 
@@ -61,9 +60,9 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    "airbnb_listings.pipelines.AirbnbListingsPipeline": 300,
-# }
+ITEM_PIPELINES = {
+    "airbnb_listings.pipelines.AirBnbListingsDuplicatePipeLine": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
