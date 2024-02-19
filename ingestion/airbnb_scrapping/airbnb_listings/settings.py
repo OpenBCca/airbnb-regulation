@@ -91,3 +91,7 @@ FEED_EXPORT_ENCODING = "utf-8"
 
 # Custom Settings
 CSV_STORE_FILE_NAME = 'master_data.csv'
+
+FEEDS = {
+    CSV_STORE_FILE_NAME: {'format': "csv", "overwrite": False}
+}
