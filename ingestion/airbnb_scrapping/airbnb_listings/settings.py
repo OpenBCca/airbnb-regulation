@@ -88,3 +88,6 @@ ITEM_PIPELINES = {
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 FEED_EXPORT_ENCODING = "utf-8"
+
+# Custom Settings
+CSV_STORE_FILE_NAME = 'master_data.csv'
