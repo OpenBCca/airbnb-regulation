@@ -15,11 +15,6 @@ class AirbnbListingsPipeline:
         return item
 
 
-import csv
-from scrapy.exceptions import DropItem
-from scrapy import ItemAdapter
-
-
 class AirBnbListingsDuplicatePipeLine:
     """Pipeline for handling duplicate Airbnb listings."""
 
