@@ -18,11 +18,15 @@ class AirbnbListingsPipeline:
 class AirBnbListingsDuplicatePipeLine:
     """Pipeline for handling duplicate Airbnb listings."""
 
-    file_name = "master_data.csv"
+    @classmethod
+    def from_crawler(cls, crawler):
+        csv_file_name = crawler.settings.get("CSV_STORE_FILE_NAME")
+        return cls(csv_file_name)
 
-    def __init__(self):
+    def __init__(self, csv_file_name):
         """Initialize the pipeline with an empty set of scraped Airbnb IDs."""
         self.airbnb_ids_scrapped = set()
+        self.csv_file_name = csv_file_name
 
     def open_spider(self, spider):
         """
@@ -35,7 +39,7 @@ class AirBnbListingsDuplicatePipeLine:
         """
         try:
             with open(
-                    f"D:\OneDrive - BCIT\openBC\\airbnb\\airbnb-regulation\ingestion\\airbnb_scrapping\{AirBnbListingsDuplicatePipeLine.file_name}",
+                    f"{self.csv_file_name}",
                     "r",
                     encoding="utf8") as file:
                 read_csv_file = csv.DictReader(file)
