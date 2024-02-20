@@ -37,6 +37,14 @@ Ingestion Module relates to the scraping of airBnB data.
    ```
    scrapy crawl listing_spider -O [file_name]   
    ```
+3. You could also configure your file name in the settings.py
+   ```
+   CSV_STORE_FILE_NAME = 'file_name.csv'   
+   ```
+   and run the 'listing_spider' with the scrapy command.
+   ```
+   scrapy crawl listing_spider   
+   ```
 
 ## Folder Structure
 ```
