@@ -20,6 +20,16 @@ class AirBnbListingsDuplicatePipeLine:
 
     @classmethod
     def from_crawler(cls, crawler):
+        """
+        Create a new instance of the spider from a Scrapy crawler.
+        This method sets the file name for which the pipeline should check for duplicates.
+
+       Args:
+           crawler: The Scrapy crawler object.
+
+       Returns:
+            An instance of the spider.
+        """
         csv_file_name = crawler.settings.get("CSV_STORE_FILE_NAME")
         return cls(csv_file_name)
 
