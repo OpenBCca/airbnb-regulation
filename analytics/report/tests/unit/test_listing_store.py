@@ -1,28 +1,21 @@
-from report.src.listing_store.listing_store import ListingStore
-from typing import List
+import pytest
 from models.listing import Listing
+from models.address import Address
+from report.src.listing_store.listing_store import MockStore
 
-def test_init():
-    mock_store = ListingStore('mock')
-    assert mock_store.store == mock_store.get_items_from_mock_store()
+def test_get_listings():
+    mock_store = MockStore()
+    listings = mock_store.get_listings()
 
-def test_get_items_from_mock_store():
-    mock_store = ListingStore('mock')
-    expected_store: List[Listing] = [
-        {
-            'listing_id': '1',
-            'city': 'Vancouver',
-            'registration_number': 'REG123'
-        },
-        {
-            'listing_id': '2',
-            'city': 'Vancouver',
-            'registration_number': 'REG456'
-        },
-        {
-            'listing_id': '3',
-            'city': 'Vancouver',
-            'registration_number': 'REG789'
-        }
-    ]
-    assert mock_store.get_items_from_mock_store() == expected_store
+    assert len(listings) == 3  # Check if there are 3 listings
+
+    # Check if all listings are instances of Listing
+    for listing in listings:
+        assert isinstance(listing, Listing)
+
+    # Check the details of the first listing
+    first_listing = listings[0]
+    assert first_listing.id == '1'
+    assert first_listing.licence_number == 'REG123'
+    assert isinstance(first_listing.address, Address)
+    assert first_listing.address.city == 'Vancouver'
