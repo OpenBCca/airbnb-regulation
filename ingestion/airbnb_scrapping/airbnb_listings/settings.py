@@ -11,6 +11,9 @@ BOT_NAME = "airbnb_listings"
 SPIDER_MODULES = ["airbnb_listings.spiders"]
 NEWSPIDER_MODULE = "airbnb_listings.spiders"
 
+FEEDS = {
+    'data.csv' : {'format':'csv'}
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "airbnb_listings (+http://www.yourdomain.com)"
