@@ -52,6 +52,14 @@ class BusinessLicenceClient:
         return merged_query_parameter
 
     def get_licence_status(self, licence_number: str) -> list[str]:
+        """Get a list of status(es) from a licence_number
+        Possible statuses: "Issued", "Pending", "Gone Out of Business", "Inactive", "Cancelled"
+
+        For example:
+          1. Given licence number "20-247927", return ["Issued"]
+          2. Given licence number "20-160574", return ["Pending", "Inactive"]
+        """
+
         fields = self._merge_query_parameters(
             self._filter_by_short_term_rental_business(),
             self._filter_by_licence_number(licence_number),
