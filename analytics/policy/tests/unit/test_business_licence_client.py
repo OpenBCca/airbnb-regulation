@@ -31,7 +31,7 @@ def mock_response(response_data=None):
         ("20-329038", ["Pending"]),
         ("20-254895", ["Cancelled"]),
         ("20-253595", ["Gone Out of Business"]),
-        ("20-160574", ["Inactive", "Pending"]),
+        ("20-160574", ["Pending", "Inactive"]),
     ],
 )
 def test_get_licence_status_success(

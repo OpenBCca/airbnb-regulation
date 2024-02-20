@@ -34,16 +34,10 @@ class BusinessLicenceClient:
             print(f"Error decoding data: {e}")
             raise e
 
-    def _process_licence_status_results(self, response_data: dict) -> str | list[str]:
-        total_count = response_data["total_count"]
+    def _process_licence_status_results(self, response_data: dict) -> list[str]:
         results = response_data["results"]
-        licence_status = [result["status"] for result in results]
-
-        if total_count > 1:
-            print(
-                f"Received {total_count} counts of licence number with statuses: {licence_status}"
-            )
-        return licence_status
+        # Note: a licence number may have more than 1 status result
+        return [result["status"] for result in results]
 
     def _merge_query_parameters(self, *parameters: dict) -> dict:
         merged_query_parameter = {}
