@@ -15,6 +15,18 @@ FEEDS = {
     'data.csv' : {'format':'csv'}
 }
 
+#import configparser
+# Read the API key from the config.ini file
+#config = configparser.ConfigParser()
+#config.read('config.ini')
+# Get the API key from the 'API' section
+#api_key = config.get('API', 'key')
+
+SCRAPEOPS_API_KEY = 'api_key'# signup at https://scrapeops.io and insert api key here
+SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = 'https://headers.scrapeops.io/v1/user-agents'
+SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
+SCRAPEOPS_NUM_RESULTS = 100
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "airbnb_listings (+http://www.yourdomain.com)"
 
@@ -46,15 +58,15 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-# SPIDER_MIDDLEWARES = {
-#    "airbnb_listings.middlewares.AirbnbListingsSpiderMiddleware": 543,
-# }
+#SPIDER_MIDDLEWARES = {
+    #"airbnb_listings.middlewares.AirbnbListingsSpiderMiddleware": 543,
+#}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    "airbnb_listings.middlewares.AirbnbListingsDownloaderMiddleware": 543,
-# }
+DOWNLOADER_MIDDLEWARES = {
+    'airbnb_listings.middlewares.ScrapeOpsFakeUserAgentMiddleware': 400,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
