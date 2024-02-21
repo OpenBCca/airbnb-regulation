@@ -21,7 +21,7 @@ FEEDS = {
 SCRAPEOPS_API_KEY = 'api key'          # signup at https://scrapeops.io and insert api key here
 SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = 'https://headers.scrapeops.io/v1/user-agents'
 SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
-SCRAPEOPS_NUM_RESULTS = 1000
+SCRAPEOPS_NUM_RESULTS = 300
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "airbnb_listings (+http://www.yourdomain.com)"
@@ -35,7 +35,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-# DOWNLOAD_DELAY = 3
+#DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -61,7 +61,9 @@ ROBOTSTXT_OBEY = False
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'airbnb_listings.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware': 400,
+#    'airbnb_listings.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware': 400,
+     'airbnb_listings.middlewares.ScrapeOpsFakeUserAgentMiddleware': 400,
+
 }
 
 # Enable or disable extensions
