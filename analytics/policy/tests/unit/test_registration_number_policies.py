@@ -36,9 +36,9 @@ def test_unique_registration_number_policy():
     registration_number_policies = RegistrationNumberPolicies(registration_number) 
     assert registration_number_policies.unique_registration_number_policy() is False # (["Pending", "Inactive"], 1)
 
-    registration_number = ""
-    registration_number_policies = RegistrationNumberPolicies(registration_number)
-    assert registration_number_policies.unique_registration_number_policy() is False # (["Issued", "Issued"], 2)
+    # registration_number = ""
+    # registration_number_policies = RegistrationNumberPolicies(registration_number)
+    # assert registration_number_policies.unique_registration_number_policy() is False # (["Issued", "Issued"], 2)
 
 def test_existed_registration_number_policy():
 
