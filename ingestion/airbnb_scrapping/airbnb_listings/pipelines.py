@@ -108,8 +108,8 @@ class AirbnbListingsPipelineDataCleaner:
         # name and title fields are lowercase
         for key in AirbnbListingsPipelineDataCleaner.fields_to_lower_case:
             value: str = adapter.get(key)
-            value = value.lower()
-            adapter[key] = value
+            lower_case_value = value.lower()
+            adapter[key] = lower_case_value
 
         # checks if registration number is empty
         registration_number: str = adapter.get('registration_number')
