@@ -93,6 +93,8 @@ class AirbnbListingsPipelineDataCleaner:
     def process_item(self, item, spider):
         """
         Process an item from the spider.
+        Checks to see if registration number is empty.
+        Makes the name and title field lowercase.
 
         Args:
         - item (dict): The item to process.
