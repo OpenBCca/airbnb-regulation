@@ -16,22 +16,27 @@ Ingestion Module relates to the scraping of airBnB data.
 
 1. Create and activate a virtual environment:
 
-    ```bash
-    virtualenv venv
-    source venv/bin/activate
+    ```
+    python -m venv venv
+    venv\Scripts\activate.bat
     ```
 
 2. Install dependencies:
 
-    ```bash
+    ```
     pip install -r requirements.txt
     ```
 
 ## Usage
 
-```
-TODO
-```
+1. Go into the directory containing `airbnb_listings` directory 
+   ```
+   cd .\airbnb_scrapping\
+   ```
+2. Run the `listing_spider` spider using the scrapy command. Specify the name of the output file.
+   ```
+   scrapy crawl listing_spider -O [file_name]   
+   ```
 
 ## Folder Structure
 ```
