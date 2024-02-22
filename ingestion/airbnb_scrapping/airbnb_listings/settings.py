@@ -68,6 +68,7 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     "airbnb_listings.pipelines.AirBnbListingsDuplicatePipeLine": 300,
+    "airbnb_listings.pipelines.AirbnbListingsPipelineDataCleaner": 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
