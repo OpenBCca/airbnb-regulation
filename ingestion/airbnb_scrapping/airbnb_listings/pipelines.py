@@ -79,39 +79,40 @@ class AirBnbListingsDuplicatePipeLine:
             self.airbnb_ids_scrapped.add(adapter["airbnb_listing_id"])
             return item
 
-    class AirbnbListingsPipelineDataCleaner:
+
+class AirbnbListingsPipelineDataCleaner:
+    """
+    A pipeline for cleaning Airbnb listing data.
+
+    Attributes:
+    - fields_to_lower_case (list): A list of field names to convert to lowercase.
+    """
+
+    fields_to_lower_case = ["title", "name"]
+
+    def process_item(self, item, spider):
         """
-        A pipeline for cleaning Airbnb listing data.
+        Process an item from the spider.
 
-        Attributes:
-        - fields_to_lower_case (list): A list of field names to convert to lowercase.
+        Args:
+        - item (dict): The item to process.
+        - spider: The spider that crawled the item.
+
+        Returns:
+        - dict: The processed item.
         """
+        adapter = ItemAdapter(item)
 
-        fields_to_lower_case = ["title", "name"]
+        # name and title fields are lowercase
+        for key in AirbnbListingsPipelineDataCleaner.fields_to_lower_case:
+            value: str = adapter.get(key)
+            value = value.lower()
+            adapter[key] = value
 
-        def process_item(self, item, spider):
-            """
-            Process an item from the spider.
+        # checks if registration number is empty
+        registration_number: str = adapter.get('registration_number')
+        if not registration_number.strip():
+            registration_number = "Not Found"
+            adapter['registration_number'] = registration_number
 
-            Args:
-            - item (dict): The item to process.
-            - spider: The spider that crawled the item.
-
-            Returns:
-            - dict: The processed item.
-            """
-            adapter = ItemAdapter(item)
-
-            # lowercases name and title fields
-            for key in AirbnbListingsPipelineDataCleaner.fields_to_lower_case:
-                value: str = adapter.get(key)
-                value = value.lower()
-                adapter[key] = value
-
-            # checks if registration number is empty
-            registration_number: str = adapter.get('registration_number')
-            if not registration_number.strip():
-                registration_number = "Not Found"
-                adapter['registration_number'] = registration_number
-
-            return item
+        return item
