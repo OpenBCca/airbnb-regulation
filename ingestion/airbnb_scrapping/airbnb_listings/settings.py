@@ -11,6 +11,12 @@ BOT_NAME = "airbnb_listings"
 SPIDER_MODULES = ["airbnb_listings.spiders"]
 NEWSPIDER_MODULE = "airbnb_listings.spiders"
 
+# Custom Settings
+CSV_STORE_FILE_NAME = 'master_data.csv'
+
+FEEDS = {
+    CSV_STORE_FILE_NAME: {'format': "csv", "overwrite": False}
+}
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "airbnb_listings (+http://www.yourdomain.com)"
 
@@ -60,9 +66,9 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-    "airbnb_listings.pipelines.AirBnbListingsDuplicatePipeLine": 300,
-}
+# ITEM_PIPELINES = {
+#    "airbnb_listings.pipelines.AirbnbListingsPipeline": 300,
+# }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -88,10 +94,3 @@ ITEM_PIPELINES = {
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 FEED_EXPORT_ENCODING = "utf-8"
-
-# Custom Settings
-CSV_STORE_FILE_NAME = 'master_data.csv'
-
-FEEDS = {
-    CSV_STORE_FILE_NAME: {'format': "csv", "overwrite": False}
-}
