@@ -24,9 +24,6 @@ class RegistrationNumberPolicies:
             return False
 
     def unique_registration_number_policy(self):
-        if self.registration_number is None or self.registration_number == "":
-            return False
-        
         business_licences = BusinessLicenceClient()
         licence_status = business_licences.get_licence_status(
             self.registration_number
@@ -38,9 +35,6 @@ class RegistrationNumberPolicies:
             return False
 
     def existed_registration_number_policy(self):
-        if self.registration_number is None or self.registration_number == "":
-            return False
-        
         business_licences = BusinessLicenceClient()
         licences_status = business_licences.get_licence_status(
             self.registration_number
