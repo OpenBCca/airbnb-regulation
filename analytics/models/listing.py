@@ -22,4 +22,3 @@ class Listing:
         self.id = id
         self.address = address
         self.licence_number = licence_number
-        

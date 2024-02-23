@@ -25,9 +25,10 @@ class RegistrationNumberPolicies:
 
     def unique_registration_number_policy(self):
         business_licences = BusinessLicenceClient()
-        licence_status, total_count = business_licences.get_licence_status(
+        licence_status = business_licences.get_licence_status(
             self.registration_number
         )
+        total_count = len(licence_status)
         if total_count == 1:
             if licence_status[0] == "Issued":
                 return True
@@ -38,9 +39,10 @@ class RegistrationNumberPolicies:
 
     def existed_registration_number_policy(self):
         business_licences = BusinessLicenceClient()
-        licences_status, total_count = business_licences.get_licence_status(
+        licences_status = business_licences.get_licence_status(
             self.registration_number
         )
+        total_count = len(licences_status)
         if total_count > 0:
             if all(status == "Issued" for status in licences_status):
                 return True

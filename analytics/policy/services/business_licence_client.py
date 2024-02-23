@@ -67,7 +67,7 @@ class BusinessLicenceClient:
         )
         response_data = self._make_request(fields)
 
-        return self._process_licence_status_results(response_data), response_data["total_count"]
+        return self._process_licence_status_results(response_data)
 
 
 if __name__ == "__main__":

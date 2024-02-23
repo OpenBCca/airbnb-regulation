@@ -29,24 +29,15 @@ def test_invalid_pattern():
 
 def test_unique_registration_number_policy():
     registration_number = "24-160188"
-    registration_number_policies = RegistrationNumberPolicies(registration_number) 
-    assert registration_number_policies.unique_registration_number_policy() is True # (["Issued"], 1)
+    registration_number_policies = RegistrationNumberPolicies(registration_number)
+    assert registration_number_policies.unique_registration_number_policy() is True
 
     registration_number = "20-160574"
     registration_number_policies = RegistrationNumberPolicies(registration_number) 
-    assert registration_number_policies.unique_registration_number_policy() is False # (["Pending", "Inactive"], 1)
-
-    # registration_number = ""
-    # registration_number_policies = RegistrationNumberPolicies(registration_number)
-    # assert registration_number_policies.unique_registration_number_policy() is False # (["Issued", "Issued"], 2)
+    assert registration_number_policies.unique_registration_number_policy() is False
 
 def test_existed_registration_number_policy():
 
     registration_number = "24-160188"
     registration_number_policies = RegistrationNumberPolicies(registration_number)
     assert registration_number_policies.existed_registration_number_policy() is True
-
-    # assert registration_number_policies.existed_registration_number_policy() is False
-
-    # assert registration_number_policies.existed_registration_number_policy() is False
-
