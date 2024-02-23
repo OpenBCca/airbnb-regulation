@@ -11,7 +11,7 @@ class RegistrationNumberPolicies:
         START_YEAR = 13
         END_YEAR = 24
 
-        if self.registration_number is None:
+        if self.registration_number is None or self.registration_number == "":
             return False
 
         if valid_registration_pattern.match(self.registration_number):
@@ -24,29 +24,29 @@ class RegistrationNumberPolicies:
             return False
 
     def unique_registration_number_policy(self):
+        if self.registration_number is None or self.registration_number == "":
+            return False
+        
         business_licences = BusinessLicenceClient()
         licence_status = business_licences.get_licence_status(
             self.registration_number
         )
         total_count = len(licence_status)
         if total_count == 1:
-            if licence_status[0] == "Issued":
-                return True
-            else:
-                return False
+            return True
         else:
             return False
 
     def existed_registration_number_policy(self):
+        if self.registration_number is None or self.registration_number == "":
+            return False
+        
         business_licences = BusinessLicenceClient()
         licences_status = business_licences.get_licence_status(
             self.registration_number
         )
         total_count = len(licences_status)
         if total_count > 0:
-            if all(status == "Issued" for status in licences_status):
-                return True
-            else:
-                return False
+            return True
         else:
             return False
