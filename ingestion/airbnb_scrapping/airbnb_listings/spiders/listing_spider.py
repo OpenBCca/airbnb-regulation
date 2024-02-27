@@ -11,7 +11,10 @@ class ListingSpider(scrapy.Spider):
     """
     name = "listing_spider"
     allowed_domains = ['airbnb.ca']
-    start_urls = ['https://www.airbnb.ca/s/Vancouver--British-Columbia--Canada/homes']
+    start_urls = ['https://www.airbnb.ca/s/Vancouver--British-Columbia--Canada/homes',
+                  'https://www.airbnb.ca/s/Vancouver--British-Columbia--Canada/homes?tab_id=home_tab&refinement_paths%5B%5D=%2Fhomes&flexible_trip_lengths%5B%5D=one_week&monthly_start_date=2024-03-01&monthly_length=3&monthly_end_date=2024-06-01&price_filter_input_type=0&channel=EXPLORE&query=Vancouver%2C%20BC&place_id=ChIJs0-pQ_FzhlQRi_OBm-qWkbs&date_picker_type=calendar&checkin=2024-02-22&checkout=2024-03-20&adults=1',
+                  'https://www.airbnb.ca/s/Vancouver--British-Columbia--Canada/homes?tab_id=home_tab&refinement_paths%5B%5D=%2Fhomes&flexible_trip_lengths%5B%5D=one_week&monthly_start_date=2024-03-01&monthly_length=2&monthly_end_date=2024-06-01&price_filter_input_type=0&channel=EXPLORE&query=Vancouver%2C%20BC&place_id=ChIJs0-pQ_FzhlQRi_OBm-qWkbs&date_picker_type=monthly_stay&checkin=2024-02-22&checkout=2024-03-20&adults=2&source=structured_search_input_header&search_type=filter_change&price_filter_num_nights=27'
+                  ]
     next_page_cursors: [str] = None
 
     async def parse(self, response: Response, **kwargs):
